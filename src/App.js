@@ -1,17 +1,20 @@
 import "./App.css";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import {loginUrl} from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 
 function App() {
-    const spotify = new SpotifyWebApi();
+    const spotify = useMemo(() => {
+        return new SpotifyWebApi();
+    }, []);
 
-    const initialState = {
-        token: "",
-        displayName: ""
+    const [token, setToken] = useState("");
+
+    const initialData = {
+        displayName: "",
+        profilePicture: ""
     };
-
-    const [userData, setUserData] = useState(initialState);
+    const [userData, setUserData] = useState(initialData);
 
     // https://dev.to/dom_the_dev/how-to-use-the-spotify-api-in-your-react-js-app-50pn
     useEffect(() => {
@@ -26,41 +29,56 @@ function App() {
         }
 
         spotify.setAccessToken(token);
+        setToken(token);
+    }, [spotify]);
+
+    useEffect(() => {
         spotify.getMe().then(user => {
             setUserData({
-                token: token,
-                displayName: user.display_name
+                displayName: user.display_name,
+                profilePicture: user.images[0].url
             });
         });
-    }, [spotify, userData]);
+    }, [spotify]);
 
     const logout = () => {
         spotify.setAccessToken("");
-        setUserData({
-            token: "",
-            displayName: ""
-        });
+        setToken("");
         window.localStorage.removeItem("token");
     }
 
-    const token = spotify.getAccessToken();
+    const temp = (
+        <div className="login">
+            <header className="login-header">
+                <h1>Spotify Matcher</h1>
 
-    let loggedInAs;
-    if (token) {
-        loggedInAs = <h3>Logged in as {userData.displayName}</h3>
+                <a href={loginUrl} id="signInButton">Sign in with Spotify!</a>
+            </header>
+        </div>
+    );
+
+    if (!token) {
+        return (
+            <div className="login">
+                <header className="login-header">
+                    <h1>Spotify Matcher</h1>
+
+                    <a href={loginUrl} id="signInButton">Sign in with Spotify!</a>
+                </header>
+            </div>
+        );
     }
 
     return (
-        <div className="App">
-            <header className="App-header">
+        <div className="home">
+            <header className="home-header">
                 <h1>Spotify Matcher</h1>
 
-                {loggedInAs}
+                <h3>Logged in as {userData.displayName}</h3>
 
-                {!token ?
-                    <a href={loginUrl} id="signInButton">Sign in with Spotify!</a> :
-                    <button onClick={logout}>Logout</button>
-                }
+                <img src={userData.profilePicture} alt="Profile" class="center" />
+
+                <button onClick={logout}>Logout</button>
             </header>
         </div>
     );
