@@ -1,3 +1,30 @@
 div {
   text-align: center;
 }
+
+table {
+  display: inline-block;
+  padding-right: 100px;
+}
+
+table, td {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+}
+
+td:first-child {
+  width: 75px;
+}
+
+td:nth-child(2) {
+  width: 250px;
+}
+
+td:nth-child(3) {
+  width: 400px;
+}
