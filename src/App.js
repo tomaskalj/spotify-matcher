@@ -87,6 +87,68 @@ function App() {
         );
     }
 
+    const topArtistsTable = (
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Top Artists</th>
+                </tr>
+            </thead>
+
+            {topArtists.map((artist, index) => (
+                <tbody>
+                    <tr key={artist.name}>
+                        <td>{index + 1}</td>
+                        <td>{artist.name}</td>
+                    </tr>
+                </tbody>
+            ))}
+        </table>
+    );
+
+    const topTracksTable = (
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Artist</th>
+                    <th>Top Tracks</th>
+                </tr>
+            </thead>
+
+            {topTracks.map((track, index) => (
+                <tbody>
+                    <tr key={track.name}>
+                        <td>{index + 1}</td>
+                        <td>{track.artists[0].name}</td>
+                        <td>{track.name}</td>
+                    </tr>
+                </tbody>
+            ))}
+        </table>
+    );
+
+    const topGenresTable = (
+        <table>
+            <thead>
+                <tr>
+                    <th>Frequency</th>
+                    <th>Top Genres</th>
+                </tr>
+            </thead>
+
+            {topGenres.map(genre => (
+                <tbody>
+                    <tr key={genre[0]}>
+                        <td>{genre[1]}</td>
+                        <td>{genre[0]}</td>
+                    </tr>
+                </tbody>
+            ))}
+        </table>
+    );
+
     return (
         <div className="home">
             <header className="home-header">
@@ -99,62 +161,13 @@ function App() {
                 </p>
 
                 {/* Display top artists in a table format */}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Top Artists</th>
-                        </tr>
-                    </thead>
+                {topArtistsTable}
 
-                    {topArtists.map((artist, index) => (
-                        <tbody>
-                            <tr key={artist.name}>
-                                <td>{index + 1}</td>
-                                <td>{artist.name}</td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
+                {/* Display top tracks by artist in a table format */}
+                {topTracksTable}
 
-                {/* Display top tracks in a table format */}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Artist</th>
-                            <th>Top Tracks</th>
-                        </tr>
-                    </thead>
-
-                    {topTracks.map((track, index) => (
-                        <tbody>
-                            <tr key={track.name}>
-                                <td>{index + 1}</td>
-                                <td>{track.artists[0].name}</td>
-                                <td>{track.name}</td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Frequency</th>
-                            <th>Top Genres</th>
-                        </tr>
-                    </thead>
-
-                    {topGenres.map(genre => (
-                        <tbody>
-                            <tr key={genre[0]}>
-                                <td>{genre[1]}</td>
-                                <td>{genre[0]}</td>
-                            </tr>
-                        </tbody>
-                    ))}
-                </table>
+                {/* Display top genres by frequency in a table format */}
+                {topGenresTable}
 
                 <p>
                     <button onClick={logout}>Logout</button>

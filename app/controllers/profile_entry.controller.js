@@ -8,7 +8,11 @@ exports.create = (req, res) => {
     }
 
     const profile_entry = new ProfileEntry({
-        username: req.body.username
+        display_name: req.body.display_name,
+        image_url: req.body.image_url,
+        top_artists: req.top_artists,
+        // top_genres
+        top_tracks: req.top_tracks
     });
 
     profile_entry.save(profile_entry).then(data => {
@@ -21,7 +25,7 @@ exports.create = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    const username = req.query.username;
+    const username = req.query.display_name;
     const condition = username ? {username: username} : {};
     ProfileEntry.find(condition).then(data => {
         res.send(data);
