@@ -1,3 +1,5 @@
+export const header = <h1>Spotify Matcher</h1>;
+
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
 const redirectUri = "http://localhost:3000/";
