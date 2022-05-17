@@ -1,6 +1,6 @@
 import {header} from "./spotify";
 
-function TestPage() {
+function TestPage(props) {
     return (
         <div className="test-page">
             {header}
@@ -11,6 +11,10 @@ function TestPage() {
                  alt="test" className="center"/>
 
             <p>Your music taste was 85% similar!</p>
+
+            <p>
+                <button onClick={props.logout}>Logout</button>
+            </p>
         </div>
     )
 }

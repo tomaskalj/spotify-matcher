@@ -33,7 +33,7 @@ function App() {
         return <LoginPage/>;
     }
 
-    return <TestPage />
+    return <TestPage logout={logout}/>
     // return <DisplayPage spotify={spotify} logout={logout}/>
 }
 
