@@ -4,6 +4,7 @@ import {getToken} from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import LoginPage from "./LoginPage";
 import DisplayPage from "./DisplayPage";
+import TestPage from "./TestPage";
 
 function App() {
     const spotify = useMemo(() => {
@@ -32,7 +33,8 @@ function App() {
         return <LoginPage/>;
     }
 
-    return <DisplayPage spotify={spotify} logout={logout}/>
+    return <TestPage />
+    // return <DisplayPage spotify={spotify} logout={logout}/>
 }
 
 export default App;
