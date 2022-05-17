@@ -49,8 +49,8 @@ class DisplayPage extends React.Component {
             error => console.log("Error loading top tracks: ", error));
     }
 
-    render() {
-        const topArtistsTable = (
+    topArtistsTable() {
+        return (
             <table>
                 <thead>
                     <tr>
@@ -69,8 +69,10 @@ class DisplayPage extends React.Component {
                 ))}
             </table>
         );
+    }
 
-        const topTracksTable = (
+    topTracksTable() {
+        return (
             <table>
                 <thead>
                     <tr>
@@ -91,8 +93,10 @@ class DisplayPage extends React.Component {
                 ))}
             </table>
         );
+    }
 
-        const topGenresTable = (
+    topGenresTable() {
+        return (
             <table>
                 <thead>
                     <tr>
@@ -111,7 +115,9 @@ class DisplayPage extends React.Component {
                 ))}
             </table>
         );
+    }
 
+    render() {
         return (
             <div className="display">
                 {header}
@@ -123,13 +129,13 @@ class DisplayPage extends React.Component {
                 </p>
 
                 {/* Display top artists in a table format */}
-                {topArtistsTable}
+                {this.topArtistsTable()}
 
                 {/* Display top tracks by artist in a table format */}
-                {topTracksTable}
+                {this.topTracksTable()}
 
                 {/* Display top genres by frequency in a table format */}
-                {topGenresTable}
+                {this.topGenresTable()}
 
                 <p>
                     <button onClick={this.props.logout}>Logout</button>
