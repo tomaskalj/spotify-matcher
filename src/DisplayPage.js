@@ -14,6 +14,8 @@ class DisplayPage extends React.Component {
             topGenres: [],
             topTracks: []
         };
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -42,7 +44,8 @@ class DisplayPage extends React.Component {
             error => console.log("Error loading top tracks: ", error));
     }
 
-    async login() {
+    async handleClick(event) {
+        event.preventDefault();
         if (!this.state.loading) {
             this.setState({loading: true});
             // If there is no DB entry for them, we need to create one
@@ -152,7 +155,7 @@ class DisplayPage extends React.Component {
     }
 
     render() {
-        // const btn_status = this.state.loading ? "Finding your match" : "Find your match";
+        const status = this.state.loading ? "Finding your match" : "Find your match";
         return (
             <div className="display">
                 {header}
@@ -164,13 +167,17 @@ class DisplayPage extends React.Component {
                 </p>
 
                 {/* Display top artists in a table format */}
-                {this.topArtistsTable()}
+                {/*{this.topArtistsTable()}*/}
 
                 {/* Display top tracks by artist in a table format */}
-                {this.topTracksTable()}
+                {/*{this.topTracksTable()}*/}
 
                 {/* Display top genres by frequency in a table format */}
-                {this.topGenresTable()}
+                {/*{this.topGenresTable()}*/}
+
+                <p>
+                    <button onClick={this.handleClick}>{status}</button>
+                </p>
 
                 <p>
                     <button onClick={this.props.logout}>Logout</button>

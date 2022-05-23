@@ -34,7 +34,7 @@ class App extends React.Component {
 
         return <DisplayPage
             spotify={this.state.spotify}   // Need to pass spotify web API through props to retrieve user info
-            logout={logout}                 // Need to pass logout functionality through props
+            logout={logout}                // Need to pass logout functionality through props
         />
     }
 }
