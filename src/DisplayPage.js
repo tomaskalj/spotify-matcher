@@ -1,6 +1,7 @@
 import "./DisplayPage.css";
 import React from "react";
 import {header} from "./spotify";
+import ProfileEntryService from "./services/profile_entry.service";
 
 class DisplayPage extends React.Component {
     constructor(props) {

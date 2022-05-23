@@ -1,40 +1,64 @@
 import "./App.css";
-import React, {useState, useEffect, useMemo} from "react";
+import React from "react";
 import {getToken} from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import LoginPage from "./LoginPage";
 import DisplayPage from "./DisplayPage";
 import TestPage from "./TestPage";
+import ProfileEntryService from "./services/profile_entry.service";
 
-function App() {
-    const spotify = useMemo(() => {
-        return new SpotifyWebApi();
-    }, []);
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            token: "",
+            spotify: new SpotifyWebApi()
+        };
+    }
 
-    const [token, setToken] = useState("");
-
-    // https://dev.to/dom_the_dev/how-to-use-the-spotify-api-in-your-react-js-app-50pn
-    useEffect(() => {
+    componentDidMount() {
         const token = getToken();
-
-        spotify.setAccessToken(token);
-        setToken(token);
-    }, [spotify]);
-
-    // Create logout functionality
-    const logout = () => {
-        spotify.setAccessToken("");
-        setToken("");
-        window.localStorage.removeItem("token");
+        this.setState({token: token});
+        this.state.spotify.setAccessToken(token);
     }
 
-    // If the user isn't logged in prompt them to log in
-    if (!token) {
-        return <LoginPage/>;
+    async login() {
+        if (!this.state.loading) {
+            this.setState({loading: false});
+            if (!await this.entryExists(this.state.token)) {
+
+            }
+        }
     }
 
-    return <TestPage logout={logout}/>
-    // return <DisplayPage spotify={spotify} logout={logout}/>
+    async entryExists(token) {
+        const response = await ProfileEntryService.getByToken(token);
+        return response.data.length > 0;
+    }
+
+    async handleLogin(event) {
+        event.preventDefault();
+
+    }
+
+    render() {
+        const logout = () => {
+            this.state.spotify.setAccessToken("");
+            this.setState({token: ""});
+            window.localStorage.removeItem("token");
+        }
+
+        if (!this.state.token) {
+            return <LoginPage/>;
+        }
+
+        return <DisplayPage
+            // token={token}       // Need to pass token through props to create/retrieve entry from MongoDB
+            spotify={this.state.spotify}   // Need to pass spotify web API through props to retrieve user info
+            logout={logout}     // Need to pass logout functionality through props
+        />
+    }
 }
 
 export default App;

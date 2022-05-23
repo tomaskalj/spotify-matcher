@@ -3,6 +3,7 @@ module.exports = mongoose => {
         "profile_entry",
         mongoose.Schema(
             {
+                token: String,
                 display_name: String,
                 image_url: String,
                 top_artists: [String],

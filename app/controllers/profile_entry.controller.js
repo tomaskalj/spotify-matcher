@@ -2,12 +2,13 @@ const db = require("../models");
 const ProfileEntry = db.profile_entries;
 
 exports.create = (req, res) => {
-    if (!req.body.username) {
+    if (!req.body.token) {
         res.status(400).send({message: "Content cannot be empty!"});
         return;
     }
 
     const profile_entry = new ProfileEntry({
+        token: req.body.token,
         display_name: req.body.display_name,
         image_url: req.body.image_url,
         top_artists: req.top_artists,
@@ -25,8 +26,8 @@ exports.create = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    const username = req.query.display_name;
-    const condition = username ? {username: username} : {};
+    const token = req.query.token;
+    const condition = token ? {token: token} : {};
     ProfileEntry.find(condition).then(data => {
         res.send(data);
     }).catch(err => {
@@ -53,6 +54,7 @@ exports.findOne = (req, res) => {
     });
 }
 
+// maybe need to change this to update relevant stuff
 exports.update = (req, res) => {
     const id = req.params.id;
     ProfileEntry.findByIdAndUpdate(id, req.body, {useFindAnyModify: true}).then(data => {

@@ -7,7 +7,8 @@ const app = express();
 const db = require("./app/models");
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    // origin: "http://localhost:8081"
+    origin: "http://localhost:3000"
 };
 app.use(cors(corsOptions));
 
@@ -22,14 +23,17 @@ app.get("/", (req, res) => {
     res.json({message: "Welcome to spotify-matcher."});
 });
 
+require("./app/routes/profile_entry_routes.js")(app);
+
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
+const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 
 require("dotenv").config();
-console.log(process.env);
+// console.log(process.env);
 
 db.mongoose.connect(db.url, {
     useNewUrlParser: true,
