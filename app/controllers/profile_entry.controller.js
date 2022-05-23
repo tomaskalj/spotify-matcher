@@ -12,7 +12,7 @@ exports.create = (req, res) => {
         display_name: req.body.display_name,
         image_url: req.body.image_url,
         top_artists: req.top_artists,
-        // top_genres
+        top_genres: req.top_genres,
         top_tracks: req.top_tracks
     });
 
@@ -54,7 +54,6 @@ exports.findOne = (req, res) => {
     });
 }
 
-// maybe need to change this to update relevant stuff
 exports.update = (req, res) => {
     const id = req.params.id;
     ProfileEntry.findByIdAndUpdate(id, req.body, {useFindAnyModify: true}).then(data => {
@@ -80,7 +79,7 @@ exports.delete = (req, res) => {
                 message: `Cannot delete ProfileEntry with id=${id}. Maybe ProfileEntry was not found!`
             });
         }
-    }).catch(err => {
+    }).catch(() => {
         res.status(500).send({
             message: "Could not delete ProfileEntry with id=" + id
         });

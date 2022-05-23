@@ -4,8 +4,6 @@ import {getToken} from "./spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import LoginPage from "./LoginPage";
 import DisplayPage from "./DisplayPage";
-import TestPage from "./TestPage";
-import ProfileEntryService from "./services/profile_entry.service";
 
 class App extends React.Component {
     constructor(props) {
@@ -23,25 +21,6 @@ class App extends React.Component {
         this.state.spotify.setAccessToken(token);
     }
 
-    async login() {
-        if (!this.state.loading) {
-            this.setState({loading: false});
-            if (!await this.entryExists(this.state.token)) {
-
-            }
-        }
-    }
-
-    async entryExists(token) {
-        const response = await ProfileEntryService.getByToken(token);
-        return response.data.length > 0;
-    }
-
-    async handleLogin(event) {
-        event.preventDefault();
-
-    }
-
     render() {
         const logout = () => {
             this.state.spotify.setAccessToken("");
@@ -54,9 +33,8 @@ class App extends React.Component {
         }
 
         return <DisplayPage
-            // token={token}       // Need to pass token through props to create/retrieve entry from MongoDB
             spotify={this.state.spotify}   // Need to pass spotify web API through props to retrieve user info
-            logout={logout}     // Need to pass logout functionality through props
+            logout={logout}                 // Need to pass logout functionality through props
         />
     }
 }

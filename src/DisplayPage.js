@@ -7,6 +7,7 @@ class DisplayPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             displayName: "",
             profilePicture: "",
             topArtists: [],
@@ -28,19 +29,10 @@ class DisplayPage extends React.Component {
         }).then(artists => {
                 this.setState({topArtists: artists.items});
 
-                let genreObj = {};
-                artists.items.forEach(artist => artist.genres.forEach(genre => {
-                    if (genreObj[genre]) {
-                        const freq = genreObj[genre];
-                        genreObj[genre] = freq + 1;
-                    } else {
-                        genreObj[genre] = 1;
-                    }
-                }));
-                let entries = Object.entries(genreObj);
-                let sortedTopGenres = entries.sort((a, b) => b[1] - a[1]);
+                let genres = [];
+                artists.items.forEach(artist => artist.genres.forEach(genre => genres.push(genre)));
 
-                this.setState({topGenres: sortedTopGenres});
+                this.setState({topGenres: genres});
             },
             error => console.log("Error loading top artists: ", error));
 
@@ -48,6 +40,47 @@ class DisplayPage extends React.Component {
             limit: 50
         }).then(tracks => this.setState({topTracks: tracks.items}),
             error => console.log("Error loading top tracks: ", error));
+    }
+
+    async login() {
+        if (!this.state.loading) {
+            this.setState({loading: true});
+            // If there is no DB entry for them, we need to create one
+            if (!await this.entryExists(this.props.spotify.getAccessToken())) {
+                const entry = {
+                    token: this.props.spotify.getAccessToken(),
+                    display_name: this.state.displayName,
+                    image_url: this.state.profilePicture,
+                    top_artists: this.state.topArtists,
+                    top_genres: this.state.topGenres,
+                    top_tracks: this.state.topTracks
+                };
+
+                console.log(entry);
+
+                ProfileEntryService.create(entry).catch(e => console.log(e));
+            }
+            this.setState({loading: false})
+        }
+    }
+
+    async entryExists(token) {
+        const response = await ProfileEntryService.getByToken(token);
+        return response.data.length > 0;
+    }
+
+    getFrequencyMap(genres) {
+        let genreObj = {};
+        genres.forEach(genre => {
+            if (genreObj[genre]) {
+                const freq = genreObj[genre];
+                genreObj[genre] = freq + 1;
+            } else {
+                genreObj[genre] = 1;
+            }
+        });
+        let entries = Object.entries(genreObj);
+        return entries.sort((a, b) => b[1] - a[1]);
     }
 
     topArtistsTable() {
@@ -106,7 +139,7 @@ class DisplayPage extends React.Component {
                     </tr>
                 </thead>
 
-                {this.state.topGenres.map(genre => (
+                {this.getFrequencyMap(this.state.topGenres).map(genre => (
                     <tbody>
                         <tr key={genre[0]}>
                             <td>{genre[1]}</td>
@@ -119,6 +152,7 @@ class DisplayPage extends React.Component {
     }
 
     render() {
+        // const btn_status = this.state.loading ? "Finding your match" : "Find your match";
         return (
             <div className="display">
                 {header}
