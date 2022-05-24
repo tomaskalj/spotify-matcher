@@ -8,6 +8,7 @@ class DisplayPage extends React.Component {
         super(props);
         this.state = {
             loading: false,
+            id: "",
             displayName: "",
             profilePicture: "",
             topArtists: [],
@@ -21,6 +22,7 @@ class DisplayPage extends React.Component {
     componentDidMount() {
         this.props.spotify.getMe().then(user => {
             this.setState({
+                id: user.id,
                 displayName: user.display_name,
                 profilePicture: user.images[0].url
             })
@@ -28,20 +30,28 @@ class DisplayPage extends React.Component {
 
         this.props.spotify.getMyTopArtists({
             limit: 50
-        }).then(artists => {
-                this.setState({topArtists: artists.items});
+        }).then(artistsData => {
+            let artists = [];
+            artistsData.items.forEach(artist => artists.push(artist.name));
+            this.setState({topArtists: artists});
 
-                let genres = [];
-                artists.items.forEach(artist => artist.genres.forEach(genre => genres.push(genre)));
-
-                this.setState({topGenres: genres});
-            },
-            error => console.log("Error loading top artists: ", error));
+            let genres = [];
+            artistsData.items.forEach(artist => artist.genres.forEach(genre => genres.push(genre)));
+            this.setState({topGenres: genres});
+        }, error => console.log("Error loading top artists: ", error));
 
         this.props.spotify.getMyTopTracks({
             limit: 50
-        }).then(tracks => this.setState({topTracks: tracks.items}),
-            error => console.log("Error loading top tracks: ", error));
+        }).then(tracksData => {
+            let tracks = [];
+            tracksData.items.forEach(item => {
+                let trackName = item.artists.map(a => a.name).join(", ");
+                trackName += " - " + item.name;
+                tracks.push(trackName);
+            });
+
+            this.setState({topTracks: tracks});
+        }, error => console.log("Error loading top tracks: ", error));
     }
 
     async handleClick(event) {
@@ -51,7 +61,7 @@ class DisplayPage extends React.Component {
             // If there is no DB entry for them, we need to create one
             if (!await this.entryExists(this.props.spotify.getAccessToken())) {
                 const entry = {
-                    token: this.props.spotify.getAccessToken(),
+                    id: this.state.id,
                     display_name: this.state.displayName,
                     image_url: this.state.profilePicture,
                     top_artists: this.state.topArtists,
@@ -61,7 +71,11 @@ class DisplayPage extends React.Component {
 
                 console.log(entry);
 
-                ProfileEntryService.create(entry).catch(e => console.log(e));
+                ProfileEntryService.create(entry)
+                    .then(response => console.log(response.data))
+                    .catch(e => console.log(e));
+            } else {
+                console.log("Did not create new entry because one already exists");
             }
             this.setState({loading: false})
         }

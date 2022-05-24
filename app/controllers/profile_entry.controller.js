@@ -2,18 +2,18 @@ const db = require("../models");
 const ProfileEntry = db.profile_entries;
 
 exports.create = (req, res) => {
-    if (!req.body.token) {
+    if (!req.body.id) {
         res.status(400).send({message: "Content cannot be empty!"});
         return;
     }
 
     const profile_entry = new ProfileEntry({
-        token: req.body.token,
+        id: req.body.id,
         display_name: req.body.display_name,
         image_url: req.body.image_url,
-        top_artists: req.top_artists,
-        top_genres: req.top_genres,
-        top_tracks: req.top_tracks
+        top_artists: req.body.top_artists,
+        top_genres: req.body.top_genres,
+        top_tracks: req.body.top_tracks
     });
 
     profile_entry.save(profile_entry).then(data => {
@@ -26,8 +26,8 @@ exports.create = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    const token = req.query.token;
-    const condition = token ? {token: token} : {};
+    const id = req.query.id;
+    const condition = id ? {id: id} : {};
     ProfileEntry.find(condition).then(data => {
         res.send(data);
     }).catch(err => {
