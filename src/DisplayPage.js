@@ -1,12 +1,15 @@
 import "./DisplayPage.css";
 import React from "react";
-import {header} from "./spotify";
+import {getToken, header} from "./spotify";
 import ProfileEntryService from "./services/profile_entry.service";
+import SpotifyWebApi from "spotify-web-api-js";
 
 class DisplayPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            token: "",
+            spotify: new SpotifyWebApi(),
             loading: false,
             id: "",
             displayName: "",
@@ -20,7 +23,11 @@ class DisplayPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.spotify.getMe().then(user => {
+        const token = getToken();
+        this.setState({token: token});
+        this.state.spotify.setAccessToken(token);
+
+        this.state.spotify.getMe().then(user => {
             this.setState({
                 id: user.id,
                 displayName: user.display_name,
@@ -28,7 +35,7 @@ class DisplayPage extends React.Component {
             })
         }, error => console.log("Error loading profile data: ", error));
 
-        this.props.spotify.getMyTopArtists({
+        this.state.spotify.getMyTopArtists({
             limit: 50
         }).then(artistsData => {
             let artists = [];
@@ -40,7 +47,7 @@ class DisplayPage extends React.Component {
             this.setState({topGenres: genres});
         }, error => console.log("Error loading top artists: ", error));
 
-        this.props.spotify.getMyTopTracks({
+        this.state.spotify.getMyTopTracks({
             limit: 50
         }).then(tracksData => {
             let tracks = [];
@@ -59,7 +66,7 @@ class DisplayPage extends React.Component {
         if (!this.state.loading) {
             this.setState({loading: true});
             // If there is no DB entry for them, we need to create one
-            if (!await this.entryExists(this.props.spotify.getAccessToken())) {
+            if (!await this.entryExists(this.state.spotify.getAccessToken())) {
                 const entry = {
                     id: this.state.id,
                     display_name: this.state.displayName,
@@ -169,6 +176,12 @@ class DisplayPage extends React.Component {
     }
 
     render() {
+        const logout = () => {
+            this.state.spotify.setAccessToken("");
+            this.setState({token: ""});
+            window.localStorage.removeItem("token");
+        }
+
         const status = this.state.loading ? "Finding your match" : "Find your match";
         return (
             <div className="display">
@@ -194,7 +207,7 @@ class DisplayPage extends React.Component {
                 </p>
 
                 <p>
-                    <button onClick={this.props.logout}>Logout</button>
+                    <button onClick={logout}>Logout</button>
                 </p>
             </div>
         );
