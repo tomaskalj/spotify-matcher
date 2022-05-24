@@ -1,3 +1,17 @@
 div {
   text-align: center;
+  font-family: 'I Found My Valentine', sans-serif;
+  padding: 70px 0;
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#signInButton {
+  font-size: 200%;
 }
