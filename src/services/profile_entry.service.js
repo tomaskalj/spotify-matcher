@@ -13,8 +13,8 @@ class ProfileEntryService {
         return http.put(`/profile_entries/${id}`, data);
     }
 
-    getByToken(token) {
-        return http.get(`/profile_entries?token=${token}`);
+    getByUserId(userId) {
+        return http.get(`/profile_entries?user_id=${userId}`)
     }
 }
 

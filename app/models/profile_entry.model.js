@@ -3,7 +3,10 @@ module.exports = mongoose => {
         "profile_entry",
         mongoose.Schema(
             {
-                id: String,
+                user_id: {
+                    type: String,
+                    unique: true
+                },
                 display_name: String,
                 image_url: String,
                 top_artists: [String],

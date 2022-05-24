@@ -13,7 +13,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<LoginPage/>}/>
                 <Route path="/home" element={<DisplayPage navigate={navigate}/>}/>
-                <Route path="/match" element={<MatchPage/>}/>
+                <Route path="/match" element={<MatchPage navigate={navigate}/>}/>
             </Routes>
         </div>
     );
