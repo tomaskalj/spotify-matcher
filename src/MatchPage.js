@@ -1,20 +1,23 @@
 import React from "react";
 import {header} from "./spotify";
+import {useLocation} from "react-router-dom";
 
-class MatchPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+function MatchPage() {
+    const {location} = useLocation();
+    console.log(location);
 
-    render() {
-        return (
-            <div className="match-page">
-                {header}
+    return (
+        <div className="match-page">
+            {header}
 
-                <p>Hello world</p>
-            </div>
-        );
-    }
+            <p>Hello world</p>
+            {/*<p>{location.test}</p>*/}
+
+            <p>
+                {/*<button onClick={location.logout}>Logout</button>*/}
+            </p>
+        </div>
+    );
 }
 
 export default MatchPage;

@@ -20,6 +20,7 @@ class DisplayPage extends React.Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     componentDidMount() {
@@ -85,12 +86,24 @@ class DisplayPage extends React.Component {
                 console.log("Did not create new entry because one already exists");
             }
             this.setState({loading: false})
+
+            this.props.navigate("/match", {
+                logout: this.logout,
+                test: "fdsjfdsf"
+            });
         }
     }
 
     async entryExists(token) {
         const response = await ProfileEntryService.getByToken(token);
         return response.data.length > 0;
+    }
+
+    async logout() {
+        this.state.spotify.setAccessToken("");
+        this.setState({token: ""});
+        window.localStorage.removeItem("token");
+        this.props.navigate("/");
     }
 
     getFrequencyMap(genres) {
@@ -176,11 +189,12 @@ class DisplayPage extends React.Component {
     }
 
     render() {
-        const logout = () => {
-            this.state.spotify.setAccessToken("");
-            this.setState({token: ""});
-            window.localStorage.removeItem("token");
-        }
+        // const logout = () => {
+        //     this.state.spotify.setAccessToken("");
+        //     this.setState({token: ""});
+        //     window.localStorage.removeItem("token");
+        //     this.props.navigate("/");
+        // }
 
         const status = this.state.loading ? "Finding your match" : "Find your match";
         return (
@@ -203,11 +217,14 @@ class DisplayPage extends React.Component {
                 {/*{this.topGenresTable()}*/}
 
                 <p>
-                    <button onClick={this.handleClick}>{status}</button>
+                    <button onClick={
+                        this.handleClick
+
+                    }>{status}</button>
                 </p>
 
                 <p>
-                    <button onClick={logout}>Logout</button>
+                    <button onClick={this.logout}>Logout</button>
                 </p>
             </div>
         );
