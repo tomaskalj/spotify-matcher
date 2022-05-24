@@ -15,8 +15,7 @@ mkdir data
 cd data
 mkdir db
 cd ..
-npm install react-crud axios
-npm install react-router-dom
+npm install react-crud axios react-router-dom dotenv --save
 ```
 
 Drag and drop the `.env` file that I provided you with into the spotify-matcher directory.
