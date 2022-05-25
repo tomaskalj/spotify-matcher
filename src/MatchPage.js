@@ -184,30 +184,38 @@ class MatchPageWrapper extends React.Component {
         if (result.match) {
             return (
                 <div className="match-page-loaded">
-                    <div className="match-page-header" style={{
+                    <div className="match-page-header">
+                        <div style={{
                         position: "absolute",
                         marginLeft: "auto",
                         marginRight: "auto",
                         left: 0,
                         right: 0,
                         textAlign: "center",
-                        top: 0
+                        top: "-10%",
                     }}>
-                        <div>
                             {header}
                         </div>
 
-                        <h2>Your music taste is {Math.round(result.score)}% similar
+                        <h2 style={{
+                        position: "absolute",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        left: 0,
+                        right: 0,
+                        textAlign: "center",
+                        top: "15%",
+                    }}>Your music taste is {Math.round(result.score)}% similar
                             to {result.match.display_name}'s</h2>
                     </div>
                     <div style={{
                         position: "absolute",
-                        marginLeft: "200px",
-                        marginRight: "200px",
+                        marginLeft: "15%",
+                        marginRight: "15%",
                         left: 0,
                         right: 0,
                         textAlign: "center",
-                        top: 50
+                        top: "0%",
                     }}>
                         <div style={{
                             display: "flex",
