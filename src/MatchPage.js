@@ -21,26 +21,35 @@ class MatchPageWrapper extends React.Component {
             sequence: {
                 segments: [0, 1],
                 forceFlag: true
-            }
+            },
+            called: false
         };
     }
 
     componentDidMount() {
         this.retrieveEntries();
+    }
+
+    componentDidUpdate() {
         const final = this.determineMatch();
+        console.log('score' + final.score)
         let start = 0;
         let percent = final.score / 100;
-        let stop = percent * 240;
-        console.log(stop);
+        let stop = percent * 210;
         if (stop < 0) {
             stop = 10;
         }
-        this.setState({
-            sequence: {
-                segments: [start, stop],
-                forceFlag: true
-            }
+        if(!this.state.called){
+            this.setState({
+                sequence: {
+                    segments: [start, stop],
+                    forceFlag: true
+                }
         });
+        this.setState({
+            called: true
+        })
+    }
     }
 
     retrieveEntries() {
@@ -159,6 +168,17 @@ class MatchPageWrapper extends React.Component {
                 preserveAspectRatio: "xMidYMid slice"
             }
         }
+        // let percent = result.score / 100;
+        // let stop = percent * 240;
+        // if (stop < 0) {
+        //     stop = 10;
+        // }
+        // this.setState({
+        //     sequence: {
+        //         segments: [start, stop],
+        //         forceFlag: true
+        //     }
+        // });
 
 
         if (result.match) {
