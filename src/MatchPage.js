@@ -3,7 +3,7 @@ import React from "react";
 import {header} from "./spotify";
 import {useLocation} from "react-router-dom";
 import ProfileEntryService from "./services/profile_entry.service";
-import animationData from "./96762-loading-heart.json"; // here
+import animationData from "./4603-heart-beat-icon.json"; // here
 import Lottie from "react-lottie-segments";
 
 function MatchPage(props) {
@@ -34,10 +34,11 @@ class MatchPageWrapper extends React.Component {
         const final = this.determineMatch();
         console.log('score' + final.score)
         let start = 0;
-        let percent = final.score / 100;
-        let stop = percent * 210;
+        let percent = 60 / 100;
+        let stop = Math.ceil(percent * 15.5);
+        console.log(stop)
         if (stop < 0) {
-            stop = 10;
+            stop = 1;
         }
         if(!this.state.called){
             this.setState({
@@ -192,7 +193,7 @@ class MatchPageWrapper extends React.Component {
                         left: 0,
                         right: 0,
                         textAlign: "center",
-                        top: "-10%",
+                        top: "0%",
                     }}>
                             {header}
                         </div>
@@ -204,7 +205,7 @@ class MatchPageWrapper extends React.Component {
                         left: 0,
                         right: 0,
                         textAlign: "center",
-                        top: "5%",
+                        top: "15%",
                     }}>Your music taste is {Math.round(result.score)}% similar
                             to {result.match.display_name}'s</h2>
                     </div>
@@ -215,12 +216,12 @@ class MatchPageWrapper extends React.Component {
                         left: 0,
                         right: 0,
                         textAlign: "center",
-                        top: "0%",
+                        top: "5%",
                     }}>
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            alignItems: "center",
+                            alignItems: "stretch",
                             padding: "5px"
                         }}>
                             <img src={this.props.location.state.profilePicture} alt="Profile" className="left"/>
@@ -230,6 +231,7 @@ class MatchPageWrapper extends React.Component {
                                 width={300}
                                 isClickToPauseDisabled={true} // here
                                 playSegments={this.state.sequence} // & here
+                                speed={.2}
                             />
                             <img src={result.match.image_url} alt="Other Profile" className="right"/>
                         </div>

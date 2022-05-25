@@ -24,3 +24,8 @@ td:nth-child(2) {
 td:nth-child(3) {
   width: 400px;
 }
+
+
+body {
+  background-image: linear-gradient(pink, white);
+}

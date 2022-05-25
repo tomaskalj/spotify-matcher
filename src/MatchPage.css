@@ -7,3 +7,7 @@ img {
 span {
   font-size: 200%;
 }
+
+body {
+  background-image: linear-gradient(pink, white);
+}
