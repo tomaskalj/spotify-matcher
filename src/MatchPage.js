@@ -193,9 +193,9 @@ class MatchPageWrapper extends React.Component {
                         textAlign: "center",
                         top: 0
                     }}>
-                        <p>
+                        <div>
                             {header}
-                        </p>
+                        </div>
 
                         <h2>Your music taste is {Math.round(result.score)}% similar
                             to {result.match.display_name}'s</h2>
