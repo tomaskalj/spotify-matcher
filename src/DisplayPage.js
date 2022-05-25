@@ -3,6 +3,7 @@ import React from "react";
 import {getToken, header} from "./spotify";
 import ProfileEntryService from "./services/profile_entry.service";
 import SpotifyWebApi from "spotify-web-api-js";
+import placeholder from "./placeholder_pfp.png";
 
 class DisplayPage extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class DisplayPage extends React.Component {
             loading: false,
             userId: "",
             displayName: "",
-            profilePicture: "",
+            profilePicture: placeholder,
             topArtists: [],
             topGenres: [],
             topTracks: []
@@ -32,8 +33,13 @@ class DisplayPage extends React.Component {
             this.setState({
                 userId: user.id,
                 displayName: user.display_name,
-                profilePicture: user.images[0].url
-            })
+            });
+
+            if (user.images.length) {
+                this.setState({profilePicture: user.images[0].url});
+            } else {
+                console.log(user.display_name + " has no profile picture.");
+            }
         }, error => console.log("Error loading profile data: ", error));
 
         this.state.spotify.getMyTopArtists({
@@ -80,10 +86,10 @@ class DisplayPage extends React.Component {
                     top_tracks: this.state.topTracks
                 };
 
-                console.log(entry);
+                // console.log(entry);
 
                 ProfileEntryService.create(entry)
-                    .then(response => console.log(response.data))
+                    // .then(response => console.log(response.data))
                     .catch(e => console.log(e));
             } else {
                 console.log("Did not create new entry because one already exists with user ID " + this.state.userId);
