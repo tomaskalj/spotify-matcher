@@ -1,0 +1,40 @@
+{
+    "_id": {
+        "$oid": "id3"
+    },
+    "id": "id3",
+    "display_name": "Justin",
+    "image_url": "",
+    "top_artists": [
+        "artist1",
+        "artist2a",
+        "artist3a",
+        "artist4a",
+        "artist5a"
+    ],
+    "top_genres": [
+        "genre1",
+        "genre2a",
+        "genre3a",
+        "genre4a",
+        "genre5a"
+    ],
+    "top_tracks": [
+        "song1 - artist1",
+        "song2 - artist2a",
+        "song3 - artist3a",
+        "song4 - artist4a",
+        "song5 - artist5a"
+    ],
+    "createdAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "updatedAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "__v": 0
+}

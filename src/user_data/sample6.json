@@ -1,0 +1,40 @@
+{
+    "_id": {
+        "$oid": "id6"
+    },
+    "id": "id6",
+    "display_name": "Candace",
+    "image_url": "",
+    "top_artists": [
+        "artist1",
+        "artist2",
+        "artist3",
+        "artist4",
+        "artist5"
+    ],
+    "top_genres": [
+        "genre1",
+        "genre2a",
+        "genre3a",
+        "genre4c",
+        "genre5a"
+    ],
+    "top_tracks": [
+        "song1 - artist1",
+        "song2 - artist2",
+        "song3 - artist3a",
+        "song4 - artist4a",
+        "song5 - artist5b"
+    ],
+    "createdAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "updatedAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "__v": 0
+}

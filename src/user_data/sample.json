@@ -1,0 +1,40 @@
+{
+    "_id": {
+        "$oid": "id1"
+    },
+    "id": "id1",
+    "display_name": "Tomas",
+    "image_url": "",
+    "top_artists": [
+        "artist1",
+        "artist2",
+        "artist3",
+        "artist4",
+        "artist5"
+    ],
+    "top_genres": [
+        "genre1",
+        "genre2",
+        "genre3",
+        "genre4",
+        "genre5"
+    ],
+    "top_tracks": [
+        "song1 - artist1",
+        "song2 - artist2",
+        "song3 - artist3",
+        "song4 - artist4",
+        "song5 - artist5"
+    ],
+    "createdAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "updatedAt": {
+        "$date": {
+            "$numberLong": "1653358907141"
+        }
+    },
+    "__v": 0
+}
