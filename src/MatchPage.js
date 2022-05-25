@@ -3,9 +3,8 @@ import React from "react";
 import {header} from "./spotify";
 import {useLocation} from "react-router-dom";
 import ProfileEntryService from "./services/profile_entry.service";
-import { AiFillHeart } from 'react-icons/ai';
-import animationData from './96762-loading-heart.json'; // here
-import Lottie from 'react-lottie-segments';
+import animationData from "./96762-loading-heart.json"; // here
+import Lottie from "react-lottie-segments";
 
 function MatchPage(props) {
     const location = useLocation();
@@ -23,7 +22,6 @@ class MatchPageWrapper extends React.Component {
                 segments: [0, 1],
                 forceFlag: true
             }
-
         };
     }
 
@@ -33,8 +31,8 @@ class MatchPageWrapper extends React.Component {
         let start = 0;
         let percent = final.score / 100;
         let stop = percent * 240;
-        console.log(stop)
-        if(stop < 0) {
+        console.log(stop);
+        if (stop < 0) {
             stop = 10;
         }
         this.setState({
@@ -49,11 +47,11 @@ class MatchPageWrapper extends React.Component {
         ProfileEntryService.getAll().then(response => {
             // console.log(response.data);
             this.setState({
-                profileEntries: response.data
-            },
-            //     () => {
-            //     console.log(this.determineMatch());
-            // }
+                    profileEntries: response.data
+                },
+                //     () => {
+                //     console.log(this.determineMatch());
+                // }
             );
         });
     }
@@ -78,7 +76,7 @@ class MatchPageWrapper extends React.Component {
          * (remember not to compare against self :inflate:)
          */
 
-        // Your top artists
+            // Your top artists
         const topArtists = this.props.location.state.topArtists;
         // Your top genres
         const topGenres = this.props.location.state.topGenres;
@@ -158,10 +156,9 @@ class MatchPageWrapper extends React.Component {
             autoplay: false, // & here
             animationData: animationData,
             rendererSettings: {
-              preserveAspectRatio: "xMidYMid slice"  
+                preserveAspectRatio: "xMidYMid slice"
             }
-          }  
-
+        }
 
 
         if (result.match) {
@@ -169,57 +166,62 @@ class MatchPageWrapper extends React.Component {
                 <div className="match-page-loaded">
                     <div className="match-page-header" style={{
                         position: "absolute",
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
+                        marginLeft: "auto",
+                        marginRight: "auto",
                         left: 0,
                         right: 0,
-                        textAlign: 'center',
+                        textAlign: "center",
                         top: 0
                     }}>
-                    <p>
-                    {header}
-                    </p>
+                        <p>
+                            {header}
+                        </p>
 
-                    {/* Render match here */}
-                    <h2>Your music taste {Math.round(result.score)}% similar to {result.match.display_name}'s</h2>
+                        <h2>Your music taste is {Math.round(result.score)}% similar
+                            to {result.match.display_name}'s</h2>
                     </div>
                     <div style={{
                         position: "absolute",
-                        marginLeft: '200px',
-                        marginRight: '200px',
+                        marginLeft: "200px",
+                        marginRight: "200px",
                         left: 0,
                         right: 0,
-                        textAlign: 'center',
+                        textAlign: "center",
                         top: 50
                     }}>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: '5px'
-                    }}>
-                        <img src={this.props.location.state.profilePicture} alt="Profile" className="left"/>
-                        <Lottie
-                        options={options}
-                        height={300}
-                        width={300}
-                        isClickToPauseDisabled={true} // here
-                        playSegments={this.state.sequence} // & here
-                        />
-                        <img src={result.match.image_url} alt="Other Profile" className="right"/>
-                    </div>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            padding: "5px"
+                        }}>
+                            <img src={this.props.location.state.profilePicture} alt="Profile" className="left"/>
+                            <Lottie
+                                options={options}
+                                height={300}
+                                width={300}
+                                isClickToPauseDisabled={true} // here
+                                playSegments={this.state.sequence} // & here
+                            />
+                            <img src={result.match.image_url} alt="Other Profile" className="right"/>
+                        </div>
                     </div>
 
                     <p style={{
-                            position: "absolute",
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            left: 0,
-                            right: 0,
-                            textAlign: 'center',
-                            top: '470px'
-                        }}>
-                        <h1 onClick={this.props.logout} style={{cursor: 'pointer', display: 'inline-block', overflow: 'hidden', width: '150'}}>Logout</h1>
+                        position: "absolute",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        left: 0,
+                        right: 0,
+                        textAlign: "center",
+                        top: "470px"
+                    }}>
+                        <span onClick={this.props.logout} style={{
+                            cursor: "pointer",
+                            display: "inline-block",
+                            overflow: "hidden",
+                            width: "150"
+                        }}>Logout</span>
                     </p>
                 </div>
             );

@@ -4,7 +4,7 @@ import {getToken, header} from "./spotify";
 import ProfileEntryService from "./services/profile_entry.service";
 import SpotifyWebApi from "spotify-web-api-js";
 import placeholder from "./placeholder_pfp.png";
-import { AiFillHeart } from 'react-icons/ai';
+import {AiFillHeart} from "react-icons/ai";
 
 class DisplayPage extends React.Component {
     constructor(props) {
@@ -122,13 +122,13 @@ class DisplayPage extends React.Component {
         const status = this.state.loading ? "Finding your match" : "Find your match";
         return (
             <div className="display" style={{
-                position: 'absolute',
-                top: '-80px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                position: "absolute",
+                top: "-80px",
+                marginLeft: "auto",
+                marginRight: "auto",
                 left: 0,
                 right: 0,
-                textAlign: 'center',
+                textAlign: "center",
             }}>
                 {header}
 
@@ -138,10 +138,11 @@ class DisplayPage extends React.Component {
                     <img src={this.state.profilePicture} alt="Profile" className="center"/>
                 </p>
 
-                <h1 style={{cursor: 'pointer', display: 'inline-block', overflow: 'hidden', width: '300px'}} onClick={this.handleClick}><AiFillHeart color='red'/> {status} <AiFillHeart color='red'/> </h1>
-                <p>
-                    <h1 style={{cursor: 'pointer', display: 'inline-block', overflow: 'hidden', width: '150'}} onClick={logout}>Logout</h1>
-                </p>
+                <h1 style={{cursor: "pointer", display: "inline-block", overflow: "hidden", width: "300px"}}
+                    onClick={this.handleClick}><AiFillHeart color="red"/> {status} <AiFillHeart color="red"/></h1>
+                <br/>
+                <h1 style={{cursor: "pointer", display: "inline-block", overflow: "hidden", width: "150"}}
+                    onClick={logout}>Logout</h1>
 
             </div>
         );
